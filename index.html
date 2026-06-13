@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MCN: Comprehensive Stages of Labor – Adele Pillitteri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <style>
+        .transition-all { transition: all 0.3s ease; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #0e7c7c; border-radius: 8px; }
+        .recall-mode .reveal-text {
+            background-color: #cbd5e1;
+            color: transparent;
+            border-radius: 0.375rem;
+            padding: 0 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            box-shadow: inset 0 0 0 1px #94a3b8;
+        }
+        .recall-mode .reveal-text:hover,
+        .recall-mode .reveal-text.revealed {
+            background-color: #fde047;
+            color: #1e293b;
+            box-shadow: none;
+        }
+        .content-section { animation: fade 0.3s ease; }
+        @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .locked-section { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+        .quiz-feedback-correct { background-color: #dcfce7; border-left: 4px solid #22c55e; }
+        .quiz-feedback-wrong { background-color: #fee2e2; border-left: 4px solid #ef4444; }
+        .nav-btn.active { background-color: #ccfbf1; color: #115e59; border-right: 4px solid #0f766e; }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { labor: { light: '#ccfbf1', DEFAULT: '#0f766e', dark: '#115e59' } } } }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 h-screen flex flex-col md:flex-row font-sans text-slate-800 overflow-hidden">
+
+    <!-- Mobile Header -->
+    <div class="md:hidden bg-labor-dark text-white p-4 flex justify-between items-center shadow-md z-30 shrink-0">
+        <button onclick="toggleMobileMenu()" class="text-white focus:outline-none z-40"><i class="fa-solid fa-bars text-2xl"></i></button>
+        <h1 class="font-bold text-lg absolute left-1/2 transform -translate-x-1/2 pointer-events-none"><i class="fa-solid fa-hourglass-half mr-2"></i> Stages of Labor</h1>
+        <div class="w-8"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <nav id="sidebar" class="hidden md:flex flex-col w-full md:w-80 bg-white shadow-2xl h-full absolute md:relative z-30 transition-all duration-300 shrink-0 border-r border-slate-200 overflow-y-auto">
+        <div class="p-6 bg-gradient-to-br from-labor-dark to-labor text-white hidden md:block shrink-0">
+            <h1 class="font-black text-2xl tracking-wide"><i class="fa-solid fa-hourglass-half text-labor-light mr-2"></i> Stages of Labor</h1>
+            <p class="text-sm text-slate-300 mt-1">Adele Pillitteri · Maternal‑Child Nursing</p>
+        </div>
+        <div class="flex-1 py-4">
+            <ul class="space-y-1 text-sm font-medium">
+                <li><button onclick="showSection('home')" id="btn-home" class="nav-btn w-full text-left px-6 py-3 hover:bg-slate-50 transition-colors"><i class="fa-solid fa-house w-6 nav-icon"></i><i class="fa-solid fa-lock w-6 hidden text-slate-400"></i> Home / Start</button></li>
+                <li><button onclick="showSection('first')" id="btn-first" class="nav-btn w-full text-left px-6 py-3 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-chart-line w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> 1. First Stage (Dilatation)</button></li>
+                <li><button onclick="showSection('second')" id="btn-second" class="nav-btn w-full text-left px-6 py-3 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-baby-carriage w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> 2. Second Stage (Expulsion)</button></li>
+                <li><button onclick="showSection('third')" id="btn-third" class="nav-btn w-full text-left px-6 py-3 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-seedling w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> 3. Third Stage (Placental)</button></li>
+                <li><button onclick="showSection('fourth')" id="btn-fourth" class="nav-btn w-full text-left px-6 py-3 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-heartbeat w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> 4. Fourth Stage (Recovery)</button></li>
+                <li><button onclick="showSection('nursing')" id="btn-nursing" class="nav-btn w-full text-left px-6 py-3 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-user-nurse w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> 5. Nursing Role & Interventions</button></li>
+                <li><button onclick="showSection('mnemonics')" id="btn-mnemonics" class="nav-btn w-full text-left px-6 py-3 hover:bg-slate-50 transition-colors locked-section"><i class="fa-solid fa-brain w-6 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> 6. Mnemonic Appendix</button></li>
+                <li><button onclick="showSection('final_quiz_sec')" id="btn-final_quiz_sec" class="nav-btn w-full text-left px-6 py-3 hover:bg-slate-50 transition-colors border-t border-slate-200 mt-2 locked-section"><i class="fa-solid fa-graduation-cap w-6 text-amber-500 nav-icon hidden"></i><i class="fa-solid fa-lock w-6 text-slate-400"></i> Final 50‑Item Exam</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 h-full overflow-y-auto bg-slate-100 relative w-full">
+        <div class="fixed top-16 md:top-4 right-4 md:right-8 z-40 flex items-center bg-white/90 backdrop-blur px-4 py-3 rounded-full shadow-lg border border-slate-200 cursor-pointer hover:bg-slate-50" onclick="toggleRecallMode()">
+            <span class="mr-3 text-sm font-bold text-slate-700 hidden md:inline"><i class="fa-solid fa-brain text-labor mr-1"></i> Active Recall</span>
+            <span class="mr-3 text-sm font-bold text-slate-700 md:hidden"><i class="fa-solid fa-brain text-labor"></i></span>
+            <button id="recall-toggle" class="w-12 h-6 bg-slate-300 rounded-full relative transition-colors duration-300 focus:outline-none shadow-inner pointer-events-none">
+                <div id="recall-knob" class="w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-300 shadow"></div>
+            </button>
+        </div>
+
+        <div class="p-4 md:p-8 max-w-6xl mx-auto pb-32">
+            <!-- HOME -->
+            <section id="home" class="content-section flex flex-col items-center justify-center min-h-[80vh] text-center block">
+                <div class="bg-gradient-to-br from-slate-800 to-labor-dark text-white rounded-3xl shadow-2xl p-10 md:p-16 w-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 -mt-10 -mr-10 text-white opacity-5"><i class="fa-solid fa-fetus text-[20rem]"></i></div>
+                    <div class="relative z-10">
+                        <div class="bg-white/10 backdrop-blur-sm inline-block p-4 rounded-full text-labor-light mb-6"><i class="fa-solid fa-hourglass-half text-5xl"></i></div>
+                        <h3 class="text-xl font-bold text-slate-300 mb-2 uppercase">Maternal‑Child Nursing · Adele Pillitteri</h3>
+                        <h1 class="text-4xl md:text-6xl font-black leading-tight drop-shadow-md">Comprehensive Stages of Labor</h1>
+                        <p class="text-lg max-w-2xl mx-auto mt-6 text-slate-200">Detailed physiologic and nursing management of the four stages of labor: dilation, expulsion, placental, and recovery. Learn key milestones, maternal changes, and evidence‑based care.</p>
+                        <button onclick="unlockFirstSection()" class="mt-10 bg-slate-600 hover:bg-slate-500 text-white font-black py-4 px-12 rounded-full shadow-xl transition-transform hover:scale-105 text-lg flex items-center mx-auto">Begin Module <i class="fa-solid fa-arrow-right ml-3"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 1: First Stage (Dilatation) -->
+            <section id="first" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-labor pb-3"><i class="fa-solid fa-chart-line text-labor mr-4"></i> First Stage of Labor (Dilatation)</h2>
+                    <div class="bg-labor-light/20 border-l-4 border-labor p-4 rounded-r mb-6">Begins with onset of true labor contractions and ends with complete cervical dilation (10 cm). Divided into latent, active, and transition phases.</div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-xl"><strong class="text-labor">Latent Phase (0–3 cm)</strong><br>• Contractions mild, 20–40 sec, 5–20 min apart<br>• Duration: nullipara ~6–20 hrs; multipara ~4.5–14 hrs<br>• Nursing: encourage ambulation, comfort measures, hydration; avoid early epidural to prevent prolonged labor</div>
+                        <div class="bg-slate-50 p-4 rounded-xl"><strong class="text-labor">Active Phase (4–7 cm)</strong><br>• Contractions moderate to strong, 40–60 sec, 3–5 min apart<br>• Cervical dilation accelerates (~1 cm/hr nullipara; 1.5 cm/hr multipara)<br>• Nursing: pain management options, monitor FHR, assist with breathing techniques</div>
+                        <div class="bg-slate-50 p-4 rounded-xl"><strong class="text-labor">Transition Phase (8–10 cm)</strong><br>• Contractions peak intensity, 60–90 sec, 2–3 min apart<br>• May have nausea, vomiting, irritability, trembling legs<br>• Nursing: avoid pushing until fully dilated; maximal support, prepare for second stage</div>
+                    </div>
+                    <div class="mt-4 p-3 bg-amber-50 rounded-lg"><strong>⚠️ Key assessment:</strong> Cervical effacement (thinning) precedes dilation in primiparas; in multiparas both occur together. Monitor for signs of fetal distress.</div>
+                    <button onclick="openQuiz('first')" class="mt-8 w-full bg-labor text-white font-black py-4 rounded-xl shadow-md hover:bg-labor-dark transition-colors text-lg"><i class="fa-solid fa-list-check mr-3"></i> Take 10-Item Quiz (Unlocks next section)</button>
+                </div>
+            </section>
+
+            <!-- Section 2: Second Stage (Expulsion) -->
+            <section id="second" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-labor pb-3"><i class="fa-solid fa-baby-carriage text-labor mr-4"></i> Second Stage of Labor (Expulsion)</h2>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div><strong class="text-labor">Definition:</strong> From full cervical dilation (10 cm) to delivery of the infant.<br><strong>Duration:</strong> Nullipara: up to 3 hours; Multipara: up to 2 hours (with regional anesthesia, up to 3/2 hours).<br><strong>Physiologic changes:</strong> Involuntary bearing‑down urge (Ferguson reflex) due to fetal head on sacral nerves; maternal HR and BP peak during pushing.</div>
+                        <div><strong class="text-labor">Phases of Second Stage:</strong><br>• <strong>Latent (resting):</strong> No urge to push; descent begins.<br>• <strong>Active (pushing):</strong> Strong urge; directed pushing.<br>• <strong>Descent:</strong> Fetal station progresses.<br>• <strong>Crowning:</strong> Fetal scalp visible at perineum.<br>• <strong>Birth:</strong> Delivery of head, restitution, shoulders, body.</div>
+                    </div>
+                    <ul class="list-disc pl-6 mt-3 space-y-1">
+                        <li><strong>Nursing interventions:</strong> Position changes (upright, lateral, squatting), encourage open‑glottis pushing, perineal support, warm compresses, monitor FHR after each contraction.</li>
+                        <li><strong>Signs of imminent birth:</strong> Bulging perineum, separation of labia, crowning, increased bloody show, mother feels "like a bowel movement".</li>
+                    </ul>
+                    <div class="bg-red-50 p-3 rounded-lg mt-3"><strong>🚨 Emergencies in second stage:</strong> Shoulder dystocia, prolapsed cord, fetal distress – prepare for rapid intervention.</div>
+                    <button onclick="openQuiz('second')" class="mt-8 w-full bg-labor text-white font-black py-4 rounded-xl shadow-md hover:bg-labor-dark transition-colors text-lg"><i class="fa-solid fa-list-check mr-3"></i> Take 10-Item Quiz (Unlocks next section)</button>
+                </div>
+            </section>
+
+            <!-- Section 3: Third Stage (Placental) -->
+            <section id="third" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-labor pb-3"><i class="fa-solid fa-seedling text-labor mr-4"></i> Third Stage of Labor (Placental)</h2>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div><strong class="text-labor">Definition:</strong> From birth of infant to delivery of placenta.<br><strong>Duration:</strong> 5–15 minutes (prolonged if >30 min).<br><strong>Mechanism of separation:</strong> Uterine contraction shears placenta from decidua; signs: cord lengthens, sudden gush of blood, uterine fundus rises and becomes firm.</div>
+                        <div><strong class="text-labor">Placental delivery methods:</strong><br>• <strong>Schultze (shiny):</strong> Fetal surface presents first – more common.<br>• <strong>Duncan (dirty):</strong> Maternal surface presents – more bleeding.<br>• <strong>Active management:</strong> Oxytocin administration, controlled cord traction (Brandt‑Andrews), uterine massage.</div>
+                    </div>
+                    <ul class="list-disc pl-6 mt-3 space-y-1">
+                        <li><strong>Nursing care:</strong> Assess vital signs, monitor for excessive bleeding (>500 mL), inspect placenta for completeness, assess fundal tone.</li>
+                        <li><strong>Complications:</strong> Retained placenta, uterine inversion, postpartum hemorrhage.</li>
+                    </ul>
+                    <button onclick="openQuiz('third')" class="mt-8 w-full bg-labor text-white font-black py-4 rounded-xl shadow-md hover:bg-labor-dark transition-colors text-lg"><i class="fa-solid fa-list-check mr-3"></i> Take 10-Item Quiz (Unlocks next section)</button>
+                </div>
+            </section>
+
+            <!-- Section 4: Fourth Stage (Recovery) -->
+            <section id="fourth" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-labor pb-3"><i class="fa-solid fa-heartbeat text-labor mr-4"></i> Fourth Stage of Labor (Immediate Postpartum)</h2>
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div><strong class="text-labor">Definition:</strong> First 1–4 hours after placental delivery.<br><strong>Critical period</strong> for hemorrhage detection and stabilization.<br><strong>Maternal physiologic changes:</strong> Fundus remains firm, lochia rubra moderate, vital signs stable or slight bradycardia, afterpains common.</div>
+                        <div><strong class="text-labor">Nursing priorities:</strong><br>• Fundal massage every 15 min first hour<br>• Assess lochia (color, amount, clots)<br>• Monitor vital signs q15min x 1h, then q30min x 2h<br>• Encourage bonding and breastfeeding (oxytocin release)<br>• Assist with perineal care, ice packs, pain management</div>
+                    </div>
+                    <ul class="list-disc pl-6 mt-3 space-y-1">
+                        <li><strong>Warning signs:</strong> Boggy uterus, excessive bleeding (>1 pad/hour), large clots, tachycardia, hypotension, perineal hematoma.</li>
+                        <li><strong>Patient education:</strong> Report heavy bleeding, fever, severe pain; schedule postpartum follow‑up.</li>
+                    </ul>
+                    <button onclick="openQuiz('fourth')" class="mt-8 w-full bg-labor text-white font-black py-4 rounded-xl shadow-md hover:bg-labor-dark transition-colors text-lg"><i class="fa-solid fa-list-check mr-3"></i> Take 10-Item Quiz (Unlocks next section)</button>
+                </div>
+            </section>
+
+            <!-- Section 5: Nursing Role & Interventions Across Stages -->
+            <section id="nursing" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-labor pb-3"><i class="fa-solid fa-user-nurse text-labor mr-4"></i> Nursing Role & Interventions Across Stages</h2>
+                    <ul class="list-disc pl-6 space-y-2">
+                        <li><strong>First stage:</strong> Assess cervical dilation/effacement, FHR and contraction pattern, maternal VS; provide comfort (position changes, hydrotherapy, breathing); administer pain relief as ordered; encourage voiding q2h.</li>
+                        <li><strong>Second stage:</strong> Coach pushing when fully dilated; assist with positioning; provide perineal support; prepare for delivery; monitor FHR after each contraction; anticipate episiotomy if needed.</li>
+                        <li><strong>Third stage:</strong> Administer oxytocin; assess placental separation signs; perform controlled cord traction; inspect placenta; evaluate fundal tone; monitor for hemorrhage.</li>
+                        <li><strong>Fourth stage:</strong> Frequent fundal and lochia assessment; promote early skin‑to‑skin contact and breastfeeding; monitor for bladder distention; provide perineal care; document vitals, blood loss.</li>
+                    </ul>
+                    <div class="bg-teal-50 p-3 rounded-lg mt-3"><strong>📌 Key equipment readiness:</strong> Newborn warmer, resuscitation equipment, oxytocin, sterile delivery pack, suture materials, hemorrhage kit.</div>
+                    <button onclick="openQuiz('nursing')" class="mt-8 w-full bg-labor text-white font-black py-4 rounded-xl shadow-md hover:bg-labor-dark transition-colors text-lg"><i class="fa-solid fa-list-check mr-3"></i> Take 10-Item Quiz (Unlocks next section)</button>
+                </div>
+            </section>
+
+            <!-- Section 6: Mnemonics -->
+            <section id="mnemonics" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 border-b-2 border-labor pb-3"><i class="fa-solid fa-brain text-labor mr-4"></i> Mnemonic Appendix</h2>
+                    <div class="overflow-x-auto rounded-xl border">
+                        <table class="w-full text-left text-sm md:text-base"><thead class="bg-labor-dark text-white"><tr><th class="p-3">Topic</th><th class="p-3">Mnemonic</th><th class="p-3">Meaning</th></tr></thead>
+                        <tbody><tr><td class="p-3 font-semibold">Stages of labor</td><td class="font-black">F S T F</td><td class="reveal-text">First (dilation), Second (expulsion), Third (placental), Fourth (recovery)</td></tr>
+                        <tr class="bg-slate-50"><td class="p-3 font-semibold">Latent vs active phase cervical dilation</td><td class="font-black">0-3-7-10</td><td class="reveal-text">Latent 0–3 cm, Active 4–7 cm, Transition 8–10 cm</td></tr>
+                        <tr><td class="p-3 font-semibold">Signs of placental separation</td><td class="font-black">G C F</td><td class="reveal-text">Gush of blood, Cord lengthens, Fundus rises (Globe sign)</td></tr>
+                        <tr class="bg-slate-50"><td class="p-3 font-semibold">Fourth stage frequency checks</td><td class="font-black">15-30</td><td class="reveal-text">q15 min first hour, then q30 min next 2 hours</td></tr>
+                        <tr><td class="p-3 font-semibold">Second stage duration (normal)</td><td class="font-black">3-2-2</td><td class="reveal-text">Nullipara up to 3h, multipara up to 2h, with epidural add 1h</td></tr>
+                        </tbody>
+                    </table>
+                    <button onclick="openQuiz('final_quiz')" class="mt-8 w-full bg-amber-500 text-slate-900 font-black py-4 rounded-xl shadow-md hover:bg-amber-400 text-lg"><i class="fa-solid fa-graduation-cap mr-3"></i> Take Final 50‑Item Exam</button>
+                </div>
+            </section>
+
+            <!-- Final Quiz Section -->
+            <section id="final_quiz_sec" class="content-section hidden">
+                <div class="bg-white rounded-2xl shadow-lg p-8 text-center min-h-[60vh] flex flex-col justify-center items-center">
+                    <i class="fa-solid fa-graduation-cap text-8xl text-amber-400 mb-6"></i>
+                    <h2 class="text-4xl font-black text-slate-800 mb-4">Final 50‑Item Exam</h2>
+                    <p class="text-lg text-slate-600 mb-8">Covers all 6 sections. 75% required to pass.</p>
+                    <button onclick="openQuiz('final_quiz')" class="w-full max-w-md bg-labor-dark text-white font-black py-4 rounded-xl shadow-md hover:bg-labor text-xl">Start Final Exam</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
+        <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeQuiz()" class="absolute top-4 right-4 text-slate-400 hover:text-red-500"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <h2 id="quiz-title" class="text-3xl font-black text-slate-800 mb-2"></h2>
+            <p class="text-slate-600 mb-6 font-medium border-b pb-4">Score ≥75% to unlock next section.</p>
+            <div id="quiz-questions-container" class="space-y-4"></div>
+            <button id="quiz-submit-btn" onclick="submitQuiz()" class="mt-8 w-full bg-labor text-white font-bold py-4 rounded-xl shadow-lg text-lg">Submit Answers</button>
+            <div id="quiz-result-container" class="hidden mt-6 p-4 rounded-xl bg-slate-100 border"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            let unlockedSections = ['home'];
+            // Quiz data – 10 questions each (total 60 for final, but we'll use 10 from each of 5 content sections for final 50)
+            const quizzes = {
+                first: {
+                    title: "Quiz 1: First Stage of Labor (10 items)",
+                    next: "second",
+                    questions: [
+                        { q: "The first stage of labor begins with:", options: ["Rupture of membranes", "Onset of regular contractions and cervical change", "Full cervical dilation", "Delivery of infant"], ans: 1 },
+                        { q: "What is the cervical dilation range for the latent phase?", options: ["0–3 cm", "4–7 cm", "8–10 cm", "10 cm"], ans: 0 },
+                        { q: "Which phase of first stage is characterized by the most rapid cervical dilation?", options: ["Latent", "Active", "Transition", "Early"], ans: 1 },
+                        { q: "Transition phase contractions typically last:", options: ["20–30 seconds", "40–60 seconds", "60–90 seconds", ">90 seconds"], ans: 2 },
+                        { q: "A nulliparous woman in active phase should dilate at least:", options: ["0.5 cm/hr", "1 cm/hr", "2 cm/hr", "3 cm/hr"], ans: 1 },
+                        { q: "Common maternal symptoms during transition include:", options: ["Euphoria, hunger", "Nausea, vomiting, irritability, trembling", "No symptoms", "Increased energy"], ans: 1 },
+                        { q: "The nurse should avoid encouraging pushing during transition because:", options: ["Pushing is always allowed", "Cervical edema and injury may occur if not fully dilated", "It speeds up labor", "It reduces pain"], ans: 1 },
+                        { q: "What is the typical duration of latent phase in a nullipara?", options: ["1–2 hours", "4–6 hours", "6–20 hours", "<1 hour"], ans: 2 },
+                        { q: "Effacement refers to:", options: ["Opening of cervix", "Thinning of cervix", "Cervical softening", "Cervical position change"], ans: 1 },
+                        { q: "Which assessment finding indicates progression from latent to active phase?", options: ["Contractions become irregular", "Cervical dilation accelerates and contractions strengthen", "Maternal fatigue decreases", "Fetal heart rate drops"], ans: 1 }
+                    ]
+                },
+                second: {
+                    title: "Quiz 2: Second Stage of Labor (10 items)",
+                    next: "third",
+                    questions: [
+                        { q: "The second stage of labor ends with:", options: ["Complete cervical dilation", "Delivery of the infant", "Delivery of the placenta", "Clamping of the cord"], ans: 1 },
+                        { q: "The urge to push is triggered by:", options: ["Full bladder", "Fetal head pressing on sacral nerves (Ferguson reflex)", "Oxytocin peak", "Maternal anxiety"], ans: 1 },
+                        { q: "What is the maximum recommended duration of second stage for a nullipara without epidural?", options: ["1 hour", "2 hours", "3 hours", "4 hours"], ans: 2 },
+                        { q: "Crowning is defined as:", options: ["Fetal scalp visible at perineum without retraction", "Complete cervical dilation", "Descent to +3 station", "Delivery of shoulders"], ans: 0 },
+                        { q: "Which pushing technique is currently recommended to reduce perineal trauma?", options: ["Sustained Valsalva maneuver", "Open‑glottis (spontaneous) pushing when urge is felt", "Breath‑holding for 30 seconds", "Closed glottis pushing"], ans: 1 },
+                        { q: "Signs of imminent birth include all EXCEPT:", options: ["Bulging perineum", "Increased bloody show", "Mother says 'I have to move my bowels'", "Decreased frequency of contractions"], ans: 3 },
+                        { q: "During the second stage, fetal heart rate should be assessed:", options: ["Every 30 minutes", "Every 5–15 minutes (after each contraction)", "Continuously only", "Only at crowning"], ans: 1 },
+                        { q: "Which maternal position may enhance pelvic outlet diameter and descent?", options: ["Supine lithotomy", "Squatting or upright", "Trendelenburg", "Prone"], ans: 1 },
+                        { q: "What is the purpose of perineal support during crowning?", options: ["Prevent lacerations and control expulsion", "Speed up delivery", "Increase pain", "Prevent fetal distress"], ans: 0 },
+                        { q: "After delivery of the head, the nurse should check for:", options: ["Nuchal cord", "Meconium", "Placental abruption", "Maternal blood pressure"], ans: 0 }
+                    ]
+                },
+                third: {
+                    title: "Quiz 3: Third Stage of Labor (10 items)",
+                    next: "fourth",
+                    questions: [
+                        { q: "The third stage of labor is defined as:", options: ["From birth of infant to delivery of placenta", "From full dilation to birth", "First hour after birth", "Onset of contractions to full dilation"], ans: 0 },
+                        { q: "Normal duration of third stage is:", options: ["1–5 minutes", "5–15 minutes", "20–30 minutes", ">30 minutes"], ans: 1 },
+                        { q: "Which sign indicates placental separation?", options: ["Fundus becomes boggy", "Cord lengthens and gush of blood", "Contractions cease", "Fetal heart rate drops"], ans: 1 },
+                        { q: "Active management of the third stage includes:", options: ["Uterine massage, oxytocin, controlled cord traction", "Immediate cord clamping", "Leaving placenta in situ", "No intervention"], ans: 0 },
+                        { q: "The most common cause of postpartum hemorrhage is:", options: ["Retained placenta", "Uterine atony", "Cervical laceration", "Coagulopathy"], ans: 1 },
+                        { q: "Which type of placental delivery is associated with less bleeding?", options: ["Duncan (dirty)", "Schultze (shiny)", "Partial separation", "Manual removal"], ans: 1 },
+                        { q: "After placental delivery, the nurse should inspect the placenta for:", options: ["Completeness (all cotyledons and membranes)", "Color only", "Weight only", "Fetal sex"], ans: 0 },
+                        { q: "The Brandt‑Andrews maneuver is used for:", options: ["Controlled cord traction", "Uterine massage", "Episiotomy repair", "Fetal heart auscultation"], ans: 0 },
+                        { q: "What medication is routinely given during the third stage to prevent hemorrhage?", options: ["Magnesium sulfate", "Oxytocin", "Terbutaline", "Nifedipine"], ans: 1 },
+                        { q: "If the placenta is not delivered within 30 minutes, the nurse should:", options: ["Wait another hour", "Apply manual pressure", "Notify provider for possible manual removal", "Pull the cord forcefully"], ans: 2 }
+                    ]
+                },
+                fourth: {
+                    title: "Quiz 4: Fourth Stage of Labor (10 items)",
+                    next: "nursing",
+                    questions: [
+                        { q: "The fourth stage of labor refers to the first:", options: ["30 minutes postpartum", "1–4 hours postpartum", "12 hours postpartum", "24 hours postpartum"], ans: 1 },
+                        { q: "During the fourth stage, the fundus should be:", options: ["Boggy and deviated", "Firm, midline, at or below umbilicus", "Palpable at xiphoid", "Non‑palpable"], ans: 1 },
+                        { q: "How often should vital signs be assessed during the first hour of the fourth stage?", options: ["Every 5 minutes", "Every 15 minutes", "Every 30 minutes", "Every hour"], ans: 1 },
+                        { q: "Lochia rubra should be:", options: ["Scant, serosanguineous", "Moderate, bright red with small clots", "Heavy, foul‑smelling", "White and thick"], ans: 1 },
+                        { q: "A full bladder in the fourth stage can cause:", options: ["Uterine atony and increased bleeding", "Increased lochia", "Decreased blood pressure", "Uterine inversion"], ans: 0 },
+                        { q: "Which intervention promotes uterine contraction and reduces hemorrhage risk?", options: ["Early breastfeeding and fundal massage", "Supine positioning", "Ice packs only", "Oral fluids"], ans: 0 },
+                        { q: "Afterpains are more common in:", options: ["Primiparas", "Multiparas", "Cesarean births", "Preterm births"], ans: 1 },
+                        { q: "Signs of excessive bleeding in the fourth stage include:", options: ["Soaking >1 pad per hour, large clots, tachycardia", "Scant lochia", "Mild cramping", "BP 120/80"], ans: 0 },
+                        { q: "Which position is best for fundal assessment and lochia drainage?", options: ["Supine", "Lithotomy", "Side‑lying", "Trendelenburg"], ans: 2 },
+                        { q: "The nurse should document the fourth stage findings including:", options: ["Fundus, lochia, perineal condition, vitals", "Only infant weight", "Only maternal temperature", "Only pain score"], ans: 0 }
+                    ]
+                },
+                nursing: {
+                    title: "Quiz 5: Nursing Role & Interventions (10 items)",
+                    next: "mnemonics",
+                    questions: [
+                        { q: "During the first stage, the nurse should encourage voiding every:", options: ["30 minutes", "1–2 hours", "4 hours", "Only when uncomfortable"], ans: 1 },
+                        { q: "In the second stage, the nurse's primary role is:", options: ["Provide perineal support and coach pushing", "Administer epidural", "Perform episiotomy", "Deliver the placenta"], ans: 0 },
+                        { q: "Active management of the third stage includes all EXCEPT:", options: ["Oxytocin", "Controlled cord traction", "Uterine massage", "Delayed cord clamping for 5 minutes"], ans: 3 },
+                        { q: "The nurse can reduce supine hypotension by:", options: ["Placing a wedge under the right hip", "Placing patient flat", "Trendelenburg position", "Prone position"], ans: 0 },
+                        { q: "Continuous labor support has been shown to:", options: ["Increase cesarean rates", "Reduce need for analgesia and shorten labor", "Prolong labor", "Increase maternal fever"], ans: 1 },
+                        { q: "Which FHR pattern requires immediate intervention?", options: ["Early decelerations", "Moderate variability", "Late decelerations with absent variability", "Accelerations"], ans: 2 },
+                        { q: "The nurse should auscultate FHR in the first stage every:", options: ["15–30 minutes (low risk) or 5–15 minutes (high risk)", "Hourly", "Only at transition", "Every 2 hours"], ans: 0 },
+                        { q: "Which intervention is indicated for a boggy uterus in the fourth stage?", options: ["Fundal massage", "Administer magnesium", "Place patient supine", "Wait 30 minutes"], ans: 0 },
+                        { q: "The nurse should prepare for possible cesarean section if:", options: ["Arrest of descent in second stage", "Mild pain", "Maternal fatigue", "FHR 130 bpm"], ans: 0 },
+                        { q: "After epidural placement, the nurse must monitor for:", options: ["Hypotension, bladder distention, impaired bearing down", "Hypertension, fever", "Increased fetal movement", "Maternal tachycardia"], ans: 0 }
+                    ]
+                }
+            };
+            
+            // Build final 50‑item exam (10 from each of 5 content sections)
+            let finalQuestions = [];
+            for(let sec of ['first','second','third','fourth','nursing']) {
+                finalQuestions = finalQuestions.concat(quizzes[sec].questions.slice(0,10));
+            }
+            while(finalQuestions.length < 50) finalQuestions.push({ q: "What is the normal range for the first stage latent phase in a nullipara?", options: ["<2 hours", "6–20 hours", "30–60 minutes", ">24 hours"], ans: 1 });
+            quizzes['final_quiz'] = { title: "Final 50‑Item Exam: Stages of Labor", next: null, questions: finalQuestions };
+            
+            // Global functions
+            window.unlockedSections = unlockedSections;
+            window.quizzes = quizzes;
+            
+            window.unlockFirstSection = function() {
+                if(!unlockedSections.includes('first')) {
+                    unlockedSections.push('first');
+                    updateSidebarUI();
+                }
+                showSection('first');
+            };
+            
+            window.showSection = function(id) {
+                if(!unlockedSections.includes(id) && id !== 'home') {
+                    alert("Complete the previous section quiz (≥75%) to unlock this content.");
+                    return;
+                }
+                document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
+                const target = document.getElementById(id);
+                if(target) target.classList.remove('hidden');
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                const activeBtn = document.getElementById('btn-'+id);
+                if(activeBtn) activeBtn.classList.add('active');
+                if(window.innerWidth < 768) document.getElementById('sidebar')?.classList.add('hidden');
+                document.querySelector('main').scrollTop = 0;
+            };
+            
+            function updateSidebarUI() {
+                const all = ['home','first','second','third','fourth','nursing','mnemonics','final_quiz_sec'];
+                all.forEach(sec => {
+                    const btn = document.getElementById('btn-'+sec);
+                    if(!btn) return;
+                    const lockIcon = btn.querySelector('.fa-lock'), mainIcon = btn.querySelector('.nav-icon');
+                    if(unlockedSections.includes(sec) || sec === 'home') {
+                        btn.classList.remove('locked-section');
+                        if(lockIcon) lockIcon.classList.add('hidden');
+                        if(mainIcon) mainIcon.classList.remove('hidden');
+                    } else {
+                        btn.classList.add('locked-section');
+                        if(lockIcon) lockIcon.classList.remove('hidden');
+                        if(mainIcon) mainIcon.classList.add('hidden');
+                    }
+                });
+            }
+            
+            let currentQuiz = null;
+            window.openQuiz = function(sectionId) {
+                currentQuiz = sectionId;
+                const qd = quizzes[sectionId];
+                if(!qd) return;
+                document.getElementById('quiz-title').innerText = qd.title;
+                const container = document.getElementById('quiz-questions-container');
+                container.innerHTML = '';
+                qd.questions.forEach((q, idx) => {
+                    let html = `<div class="bg-slate-50 p-4 rounded-xl border mb-4"><p class="font-bold mb-3">${idx+1}. ${q.q}</p><div class="space-y-2">`;
+                    q.options.forEach((opt, oi) => {
+                        html += `<label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white cursor-pointer"><input type="radio" name="q${idx}" value="${oi}" class="form-radio text-labor"><span>${opt}</span></label>`;
+                    });
+                    html += `</div><div class="feedback-${idx} text-sm mt-2 hidden"></div></div>`;
+                    container.innerHTML += html;
+                });
+                document.getElementById('quiz-submit-btn').classList.remove('hidden');
+                document.getElementById('quiz-result-container').classList.add('hidden');
+                document.getElementById('quiz-modal').classList.remove('hidden');
+            };
+            
+            window.closeQuiz = function() { document.getElementById('quiz-modal').classList.add('hidden'); };
+            
+            window.submitQuiz = function() {
+                const qd = quizzes[currentQuiz];
+                if(!qd) return;
+                let score = 0;
+                for(let i = 0; i < qd.questions.length; i++) {
+                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                    const isCorrect = selected && parseInt(selected.value) === qd.questions[i].ans;
+                    if(isCorrect) score++;
+                    const fbDiv = document.querySelector(`.feedback-${i}`);
+                    if(fbDiv) {
+                        fbDiv.classList.remove('hidden');
+                        const correctAns = qd.questions[i].options[qd.questions[i].ans];
+                        if(isCorrect) {
+                            fbDiv.innerHTML = `<span class="text-green-700"><i class="fa-regular fa-circle-check"></i> Correct!</span>`;
+                            fbDiv.parentElement?.classList.add('quiz-feedback-correct');
+                            fbDiv.parentElement?.classList.remove('quiz-feedback-wrong');
+                        } else {
+                            const selectedText = selected ? qd.questions[i].options[parseInt(selected.value)] : "No answer";
+                            fbDiv.innerHTML = `<span class="text-red-700"><i class="fa-regular fa-circle-xmark"></i> Incorrect. Correct: ${correctAns}. Your answer: ${selectedText}</span>`;
+                            fbDiv.parentElement?.classList.add('quiz-feedback-wrong');
+                            fbDiv.parentElement?.classList.remove('quiz-feedback-correct');
+                        }
+                    }
+                }
+                const percent = (score / qd.questions.length) * 100;
+                const resultDiv = document.getElementById('quiz-result-container');
+                const btn = document.getElementById('quiz-submit-btn');
+                btn.classList.add('hidden');
+                resultDiv.classList.remove('hidden');
+                if(percent >= 75) {
+                    if(currentQuiz === 'final_quiz') {
+                        resultDiv.innerHTML = `<div class="text-amber-500 text-6xl text-center">🏆</div><h3 class="text-2xl font-black text-center">Mastery Achieved!</h3><p class="text-center">Score ${score}/${qd.questions.length} (${percent}%)</p><p class="text-center text-green-700">You have mastered the stages of labor based on Adele Pillitteri.</p><button onclick="closeQuiz()" class="mt-4 w-full bg-labor text-white py-2 rounded-lg">Close</button>`;
+                        return;
+                    }
+                    if(qd.next && !unlockedSections.includes(qd.next)) {
+                        unlockedSections.push(qd.next);
+                        if(qd.next === 'mnemonics') unlockedSections.push('final_quiz_sec');
+                        updateSidebarUI();
+                    }
+                    resultDiv.innerHTML = `<div class="text-green-600 text-5xl text-center">✓</div><h3 class="text-2xl font-black text-center">Passed!</h3><p class="text-center">Score ${score}/${qd.questions.length} (${percent}%)</p><button onclick="closeQuiz(); showSection('${qd.next}')" class="mt-4 w-full bg-green-600 text-white py-2 rounded-lg">Unlock Next Section</button>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="text-red-500 text-5xl text-center">✗</div><h3 class="text-2xl font-black text-center">Failed</h3><p class="text-center">Score ${score}/${qd.questions.length} (${percent}%). Need 75%.</p><button onclick="openQuiz('${currentQuiz}')" class="mt-4 w-full bg-slate-600 text-white py-2 rounded-lg">Try Again</button>`;
+                }
+            };
+            
+            window.toggleRecallMode = function() {
+                const active = !document.body.classList.contains('recall-mode');
+                const toggle = document.getElementById('recall-toggle'), knob = document.getElementById('recall-knob');
+                if(active) {
+                    document.body.classList.add('recall-mode');
+                    toggle.classList.add('bg-labor');
+                    knob.classList.add('translate-x-6');
+                } else {
+                    document.body.classList.remove('recall-mode');
+                    toggle.classList.remove('bg-labor');
+                    knob.classList.remove('translate-x-6');
+                }
+            };
+            
+            window.toggleMobileMenu = function() {
+                const s = document.getElementById('sidebar');
+                if(s.classList.contains('hidden')) s.classList.remove('hidden');
+                else s.classList.add('hidden');
+            };
+            
+            document.addEventListener('DOMContentLoaded', () => {
+                updateSidebarUI();
+                document.querySelectorAll('.reveal-text').forEach(el => {
+                    el.addEventListener('click', function() {
+                        if(document.body.classList.contains('recall-mode')) this.classList.toggle('revealed');
+                    });
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
